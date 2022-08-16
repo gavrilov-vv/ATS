@@ -1,4 +1,2 @@
-# ATS
-Automate Tools Service
 # НАЗНАЧЕНИЕ
-
+**ATS** (Automate Tools Service) - набор программных инструментов для автоматизации процессов пользователя.
