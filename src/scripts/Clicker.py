@@ -5,6 +5,7 @@ from selenium.common.exceptions import (NoSuchElementException)
 from selenium.common.exceptions import (WebDriverException)
 from global_defs import (Resource, ResultCode)
 import os
+import notify2
 
 
 class Clicker:
@@ -18,8 +19,6 @@ class Clicker:
         :param _res_name: Сокращенное наименование ресурса
         :return:
         """
-        print(addr, login, password)
-
         binary = FirefoxBinary("/usr/bin/firefox")
         # Опции
         opt = webdriver.FirefoxOptions()
@@ -101,6 +100,19 @@ class Clicker:
 
             # Ждем 5 сек
             driver.implicitly_wait(5)
+
+            elem = driver.find_element_by_class_name("event-counter_new-events")
+
+            val = elem.text.replace("+", "")
+
+            if (int(val) > 0):
+                notify2.init("ATS")
+                n = notify2.Notification("HeadHanter",
+                                         "Имеются новые события",
+                                         icon="/usr/share/icons/Mint-X/status/48/dialog-information.png")
+                n.set_timeout(2000)
+                n.show()
+
             # Мои резюме
             elem22 = driver.find_element_by_xpath("/html/body/div[4]/"
                                                   "div/div[2]/div[1]/"
@@ -119,15 +131,12 @@ class Clicker:
                                                              "div[1]/div[2]/"
                                                              "div[1]/button")
                     btn_close.click()
-                except WebDriverException as e:
-                    print(str(e))
-                    return int(ResultCode.WEB_DRIVER_EXCEPTION)
                 except NoSuchElementException as e:
                     print(str(e))
                     return int(ResultCode.NO_SUCH_ELEMENT_EXCEPTION)
-#                except Exception as e:
-#                    print(str(e))
-#                    return int(ResultCode.INIT_ERROR)
+                except WebDriverException as e:
+                    print(str(e))
+                    return int(ResultCode.WEB_DRIVER_EXCEPTION)
         except NoSuchElementException as e:
             print(str(e))
             return int(ResultCode.NO_SUCH_ELEMENT_EXCEPTION)
@@ -152,3 +161,15 @@ class Clicker:
             return int(ResultCode.WEB_DRIVER_EXCEPTION)
 
         return int(ResultCode.ALL_RIGHT)
+
+    def check_new_events_hh(self, driver):
+        elem = driver.find_element_by_class_name("event-counter event-counter_new-events")
+        # print(elem.text.replace("+", ""))
+        val = elem.text.replace("+", "")
+        if(int(val) > 0):
+            notify2.init("ATS")
+            n = notify2.Notification("HeadHanter",
+                                     "Имеются новые события",
+                                     icon="/usr/share/icons/Mint-X/status/48/dialog-information.png")
+            n.set_timeout(2000)
+            n.show()
