@@ -41,8 +41,8 @@ void AutoClickController::onStartThread()
 
     updateTimer->start(_sec);
 
-    emit message("Выполнен запуск потока подсистемы "
-                 "автоподнятия резюме",
+    emit message(QString("Выполнен запуск потока подсистемы "
+                         "автоподнятия резюме, Timeout=%1").arg(_sec),
                  MsgType::INFO);
 
     onUpdateTimer();

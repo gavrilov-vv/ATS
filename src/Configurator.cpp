@@ -13,7 +13,7 @@ quint32 Configurator::getRefreshTimeout()
 
     if(pSettings)
     {
-        pSettings->beginGroup("General");
+        pSettings->beginGroup("App");
         _rt = pSettings->value("refresh_timeout", 120).toInt();
         pSettings->endGroup();
     }
