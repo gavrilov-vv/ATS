@@ -78,7 +78,7 @@ class Clicker:
                                                 "div[1]/div[1]/div[1]/div[2]"
                                                 "/div/form/div[1]/"
                                                 "fieldset/input")
-            # elem.send_keys('nordsvn@gmail.com')
+
             elem.send_keys(login)
 
             # пароль
@@ -87,7 +87,7 @@ class Clicker:
                                                 "div/div[1]/div[1]/div[1]/"
                                                 "div[2]/div/form/div[2]/"
                                                 "fieldset/input")
-            # elem.send_keys('.CricDeb6')
+
             elem.send_keys(password)
             # Кнопка аутентификации
             elem21 = driver.find_element_by_xpath("/html/body/div[5]/"
@@ -100,18 +100,21 @@ class Clicker:
 
             # Ждем 5 сек
             driver.implicitly_wait(5)
+            
+            try:
+                elem = driver.find_element_by_class_name("event-counter_new-events")
 
-            elem = driver.find_element_by_class_name("event-counter_new-events")
+                val = elem.text.replace("+", "")
 
-            val = elem.text.replace("+", "")
-
-            if (int(val) > 0):
-                notify2.init("ATS")
-                n = notify2.Notification("HeadHanter",
-                                         "Имеются новые события",
-                                         icon="/usr/share/icons/Mint-X/status/48/dialog-information.png")
-                n.set_timeout(2000)
-                n.show()
+                if (int(val) > 0):
+                    notify2.init("ATS")
+                    n = notify2.Notification("HeadHanter",
+                                             "Имеются новые события",
+                                             icon="/usr/share/icons/Mint-X/status/48/dialog-information.png")
+                    n.set_timeout(2000)
+                    n.show()
+            except NoSuchElementException as e:
+                pass
 
             # Мои резюме
             elem22 = driver.find_element_by_xpath("/html/body/div[4]/"
